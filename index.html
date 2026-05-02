@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerador de Senha Inicial - </title>
+    <title>Gerador de Senha Inicial</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
         .card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
@@ -27,6 +27,7 @@
     
     <div class="field">
         <label>Iniciais da Empresa</label>
+        <!-- Alteração: value removido, mantendo apenas o placeholder -->
         <input type="text" id="empresa" placeholder="Ex: BWA">
     </div>
 
@@ -37,7 +38,8 @@
 
     <div class="field">
         <label>Mês/Ano Referência</label>
-        <input type="text" id="data" placeholder="MMAA">
+        <!-- Alteração: value removido, placeholder ajustado -->
+        <input type="text" id="data" placeholder="Ex: 0526">
     </div>
 
     <button onclick="gerarSenha()">Gerar Senha Segura</button>
@@ -56,8 +58,19 @@
         const doc = document.getElementById('documento').value.replace(/\D/g, '');
         const data = document.getElementById('data').value.trim();
         
+        // Novas validações para garantir que os campos não fiquem em branco
+        if (empresa === "") {
+            alert("Por favor, preencha as Iniciais da Empresa.");
+            return;
+        }
+
         if (doc.length < 4) {
             alert("Por favor, insira ao menos os últimos 4 dígitos do documento.");
+            return;
+        }
+
+        if (data === "") {
+            alert("Por favor, preencha o Mês/Ano de referência.");
             return;
         }
 
