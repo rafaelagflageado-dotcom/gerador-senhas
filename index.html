@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Senha Inicial - BWA</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+        h2 { color: #2c3e50; margin-top: 0; text-align: center; }
+        .field { margin-bottom: 1.2rem; }
+        label { display: block; margin-bottom: 0.5rem; color: #7f8c8d; font-size: 0.9rem; }
+        input { width: 100%; padding: 10px; border: 1px solid #dcdfe6; border-radius: 6px; box-sizing: border-box; font-size: 1rem; }
+        button { width: 100%; padding: 12px; background-color: #3498db; color: white; border: none; border-radius: 6px; font-size: 1rem; cursor: pointer; transition: background 0.3s; }
+        button:hover { background-color: #2980b9; }
+        #result-container { margin-top: 1.5rem; padding: 1rem; background-color: #e8f4fd; border-radius: 6px; text-align: center; display: none; }
+        #password-display { font-family: monospace; font-size: 1.4rem; color: #2c3e50; font-weight: bold; display: block; margin-bottom: 10px; }
+        .copy-btn { background-color: #2ecc71; font-size: 0.8rem; padding: 6px; }
+        .copy-btn:hover { background-color: #27ae60; }
+        .security-note { font-size: 0.75rem; color: #95a5a6; margin-top: 1rem; text-align: center; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Gerador de Senha</h2>
+    
+    <div class="field">
+        <label>Iniciais da Empresa</label>
+        <input type="text" id="empresa" value="BWA" placeholder="Ex: BWA">
+    </div>
+
+    <div class="field">
+        <label>Documento (CNPJ/CPF)</label>
+        <input type="text" id="documento" placeholder="Apenas números">
+    </div>
+
+    <div class="field">
+        <label>Mês/Ano Referência</label>
+        <input type="text" id="data" value="0526" placeholder="MMAA">
+    </div>
+
+    <button onclick="gerarSenha()">Gerar Senha Segura</button>
+
+    <div id="result-container">
+        <span id="password-display"></span>
+        <button class="copy-btn" onclick="copiarSenha()">Copiar Senha</button>
+    </div>
+
+    <p class="security-note">Os dados inseridos não são enviados ao servidor. O processamento é 100% local.</p>
+</div>
+
+<script>
+    function gerarSenha() {
+        const empresa = document.getElementById('empresa').value.trim().toUpperCase();
+        const doc = document.getElementById('documento').value.replace(/\D/g, '');
+        const data = document.getElementById('data').value.trim();
+        
+        if (doc.length < 4) {
+            alert("Por favor, insira ao menos os últimos 4 dígitos do documento.");
+            return;
+        }
+
+        const ultimosDigitos = doc.slice(-4);
+        const senhaGerada = `${empresa}${ultimosDigitos}#${data}`;
+
+        document.getElementById('password-display').innerText = senhaGerada;
+        document.getElementById('result-container').style.display = 'block';
+    }
+
+    function copiarSenha() {
+        const senha = document.getElementById('password-display').innerText;
+        navigator.clipboard.writeText(senha);
+        alert("Senha copiada para a área de transferência!");
+    }
+</script>
+
+</body>
+</html>
